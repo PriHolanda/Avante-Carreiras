@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background-color: #F4F7FE;
+}
+
+aside {
+    width: 280px;
+    background-color: #050C32;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px;
+    color: white;
+}
+
+aside div img {
+    width: 180px;
+    margin-bottom: 50px;
+}
+
+aside nav ul {
+    list-style: none;
+}
+
+aside nav li {
+    padding: 15px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+    margin-bottom: 10px;
+}
+
+aside nav li:hover {
+    background-color: #101B4D;
+    color: #02C6F8;
+}
+
+main {
+    flex: 1;
+    padding: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background-color: #FFFFFF;
+    width: 100%;
+    max-width: 1000px;
+    border-radius: 25px;
+    padding: 50px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+}
+
+.perfil-cabecalho {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.foto-perfil {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.info-perfil {
+    flex: 1;
+}
+
+.info-perfil h1 {
+    color: #040C34;
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.info-perfil p {
+    color: #050C32;
+    font-size: 14px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.info-perfil p strong {
+    font-weight: 700;
+    color: #040C34;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+thead th {
+    text-align: left;
+    color: #02C6F8;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #F4F7FE;
+}
+
+thead th:last-child {
+    text-align: right;
+}
+
+tbody td {
+    padding: 20px 0;
+    border-bottom: 1px solid #F4F7FE;
+    color: #050C32;
+    font-size: 14px;
+}
+
+tbody td:first-child {
+    font-weight: 500;
+}
+
+tbody td:last-child {
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+tbody td:last-child img {
+    width: 18px;
+    height: 18px;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 15px;
+    font-size: 10px;
+    color: #050C32;
+    background: transparent;
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    
+    aside {
+        width: 100%;
+        padding: 20px;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    aside div img {
+        width: 120px;
+        margin-bottom: 0;
+    }
+    
+    aside nav ul {
+        display: flex;
+        gap: 20px;
+    }
+    
+    main {
+        padding: 30px;
+    }
+    
+    .container {
+        padding: 30px;
+    }
+    
+    .perfil-cabecalho {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+    
+    .foto-perfil {
+        width: 120px;
+        height: 120px;
+    }
+    
+    tbody td:last-child {
+        justify-content: flex-start;
+    }
+    
+    thead th:last-child {
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        padding: 20px;
+    }
+    
+    .container {
+        padding: 20px;
+    }
+    
+    .info-perfil h1 {
+        font-size: 22px;
+    }
+    
+    table {
+        font-size: 12px;
+    }
+    
+    tbody td {
+        padding: 15px 0;
+    }
+}
