@@ -13,38 +13,47 @@ body {
     background-color: #F4F7FE;
 }
 
-aside {
+.sidebar {
+    height: 100vh;
     width: 280px;
-    background-color: #050C32;
+    display: flex;
+    background-color: #040C34;
+}
+
+.nav-container {
+    padding: 40px 20px;
+    width: 100%;
+    box-sizing: border-box;
+
+}
+
+.nav-list {
     display: flex;
     flex-direction: column;
-    padding: 40px 20px;
+    width: 100%;
+}
+
+.item-list {
+    text-decoration: none;
     color: white;
-}
-
-aside div img {
-    width: 180px;
-    margin-bottom: 50px;
-}
-
-aside nav ul {
-    list-style: none;
-}
-
-aside nav li {
-    padding: 15px 20px;
     font-size: 14px;
     font-weight: bold;
     letter-spacing: 1px;
-    cursor: pointer;
     border-radius: 8px;
     transition: 0.3s;
+    padding: 15px 20px;
+    display: block;
     margin-bottom: 10px;
 }
 
-aside nav li:hover {
+.item-list:hover {
     background-color: #101B4D;
     color: #02C6F8;
+}
+
+.img-logo {
+    width: 180px;
+    margin-bottom: 50px;
 }
 
 main {
