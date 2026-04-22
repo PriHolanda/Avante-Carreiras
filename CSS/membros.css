@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+* {
+    font-family: Montserrat, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background-color: #F4F7FE;
+}
+
+.sidebar {
+    height: 100vh;
+    width: 280px;
+    display: flex;
+    background-color: #040C34;
+}
+
+.nav-container {
+    padding: 40px 20px;
+    width: 100%;
+    box-sizing: border-box;
+
+}
+
+.nav-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.item-list {
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    transition: 0.3s;
+    padding: 15px 20px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.item-list:hover {
+    background-color: #101B4D;
+    color: #02C6F8;
+}
+
+.img-logo {
+    width: 180px;
+    margin-bottom: 50px;
+}
+
+.main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+.main-container {
+    background-color: #ededed;
+    padding: 40px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 20px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background-color: #ddd6e2;
+    border-radius: 26px;
+    padding: 0 15px;
+    width: 335px;
+}
+
+.search-input {
+    width: 300px;
+    height: 45px;
+    border: none;
+    border-radius: 26px;
+    background-color: #ddd6e2;
+    padding: 0px 24px;
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: #49454F;
+}
+.search-input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    height: 16px;
+    width: 16px;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236750A4'%3e%3cpath d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.fa-bars,
+.fa-magnifying-glass {
+    color: #49454F;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.tabs-menu {
+    display: flex;
+    list-style: none;
+    justify-content: space-between;
+    background-color: #FFFFFF;
+    padding: 14px 20px;
+    margin-bottom: 2px;
+}
+
+.tab-item {
+    color: #49454F;
+    font-weight: 500;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 13px;
+    cursor: pointer
+}
+
+.table-header,
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; 
+    align-items: center;
+    padding: 14px 20px;
+    background-color: #FFFFFF;
+}
+
+.table-header-item:nth-child(1),
+.table-header-item:nth-child(2),
+.table-header-item:nth-child(3),
+.col,
+.status-regular,
+.status-pendente,
+.status-erro {
+    justify-self: center;
+}
+
+.table-header {
+    background-color: #FFFFFF;
+    font-weight: 500;
+    color: #49454F;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.table-body {
+    max-height: 300px; 
+    overflow-y: scroll; /* Força a existência da barra para não deslocar o layout */
+    overflow-x: hidden;
+    background-color: #FFFFFF;
+}
+
+.table-body::-webkit-scrollbar {
+    width: 10px;
+}
+
+.table-body::-webkit-scrollbar-track {
+    background: #F4F7FE; 
+}
+
+.table-body::-webkit-scrollbar-thumb {
+    background: #6750A4; 
+    border-radius: 10px;
+    border: 3px solid #F4F7FE; 
+}
+
+.row {
+    background-color: #FFFFFF;
+    font-weight: 500;
+    color: #49454F;
+    font-size: 13px;
+}
+
+.people {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icon-user {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    background-color: #EADDFF;
+    text-align: center;
+    align-content: center;
+    font-size: 14px;
+}
+
+.status-regular {
+    width: 87px;
+    color: white;
+    height: 28px;
+    border-radius: 18px;
+    text-align: center;
+    align-content: center;
+    background-color: #6750A4;
+}
+
+.status-pendente {
+    width: 87px;
+    height: 28px;
+    border-radius: 18px;
+    text-align: center;
+    align-content: center;
+    border: #CAC4D0 solid 1px;
+}
+
+.status-erro {
+    width: 87px;
+    height: 28px;
+    border-radius: 18px;
+    text-align: center;
+    align-content: center;
+    background-color: #B3261E;
+    color: #FFF;
+}
