@@ -123,6 +123,11 @@ form {
     font-size: 13px;
     letter-spacing: 10%;
     color: #FFFFFF;
+    display: flex;            
+    align-items: center;     
+    justify-content: center;   
+    text-decoration: none;   
+    box-sizing: border-box;
 }
 
 .btn-cadastro {
