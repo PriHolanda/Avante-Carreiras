@@ -235,3 +235,46 @@ body {
     background-color: #B3261E;
     color: #FFF;
 }
+.icon-status {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+}
+
+.status-check, 
+.status-error {
+    background-color: #EADDFF; 
+    color: #6750A4; 
+}
+
+.status-alert {
+    background-color: #1A1033;
+    color: #FFFFFF;
+}
+
+.table-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 20px;
+    background-color: #FFFFFF;
+    color: #49454F;
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.item-list.active {
+    background-color: #101B4D;
+    color: #02C6F8;
+}
+
+.tab-item.active {
+    color: #6750A4;
+    font-weight: bold;
+    border-bottom: 2px solid #6750A4;
+}
