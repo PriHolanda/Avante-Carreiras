@@ -1,49 +1,58 @@
-<!DOCYPE html>
-    <html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-br">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Avante Carreiras</title>
-        <link rel="stylesheet" href="CSS/login.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-            rel="stylesheet">
-      <link rel="icon" href="./img/logo.png">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avante Carreiras</title>
+    <link rel="stylesheet" href="CSS/login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="icon" href="./img/logo.png">
+</head>
 
-    <body>
-        <main class="login">
+<body>
+    <main class="login">
 
-            <!-- lado esquerdo -->
-            <section class="login-left">
-                <img src="./img/avante-logo.webp" alt="Logo Avante Carreiras" class="logo-avante">
-                <h2 class="txt-login">Soluções <br> Tecnológicas</h2>
-                <h2 class="txt-login2">Avançar <br> É a Nossa Missão </h2>
-            </section>
+        <!-- lado esquerdo -->
+        <section class="login-left">
+            <img src="./img/avante-logo.webp" alt="Logo Avante Carreiras" class="logo-avante">
+            <h2 class="txt-login">Soluções <br> Tecnológicas</h2>
+            <h2 class="txt-login2">Avançar <br> É a Nossa Missão</h2>
+        </section>
 
-            <!-- lado direito -->
+        <!-- lado direito -->
+        <section class="login-right">
+            <h1 class="welcome-login">Seja Bem-vindo!</h1>
 
-            <section class="login-right">
-                <h1 class="welcome-login">Seja Bem-vindo!</h1>
+            <form id="loginForm" novalidate>
+                <div class="inputs-box">
+                    <input id="emailInput"    class="input" type="email"    placeholder="Insira email"  autocomplete="email">
+                    <input id="passwordInput" class="input" type="password" placeholder="Insira senha" autocomplete="current-password">
+                </div>
 
-                <form>
-                    <div class="inputs-box">
-                        <input class="input" type="email" placeholder="Insira email">
-                        <input class="input" type="password" placeholder="Insira senha">
-                    </div>
+                <p class="error-msg" id="errorMsg">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="8" x2="12" y2="12"/>
+                        <line x1="12" y1="16" x2="12.01" y2="16"/>
+                    </svg>
+                    <span id="errorText"></span>
+                </p>
 
-                    <a href="#" class="forgot">Esqueceu a senha?</a>
+                <a href="#" class="forgot">Esqueceu a senha?</a>
 
-                    <div class="buttons-form">
-                        <a href="membros.html" class="btn-login">Login</a>
-                        <button class="btn-cadastro">Cadastro</button>
-                    </div>
-                </form>
-            </section>
-        </main>
+                <div class="buttons-form">
+                    <button type="submit" class="btn-login" id="btnLogin">Login</button>
+                    <a href="cadastro.html" class="btn-cadastro">Cadastro</a>
+                </div>
+            </form>
+        </section>
+    </main>
 
-    </body>
+    <script src="auth.js"></script>
+    <script src="login.js"></script>
+</body>
 
-    </html>
+</html>

@@ -4,13 +4,14 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 100vh; /* FIX: centraliza verticalmente */
 }
 
 .login {
     border-radius: 25px;
     width: 80%;
     max-width: 1343px;
-    height: 80%;
+    height: 80vh;
     max-height: 884px;
     display: flex;
     overflow: hidden;
@@ -23,7 +24,6 @@ body {
     background-position: center;
     background-color: #040C33;
     padding: 20px 30px;
-
 }
 
 .login-right {
@@ -32,15 +32,15 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between; 
-    padding: 100px 0; /* Aumenta o respiro nas bordas superior e inferior */
+    justify-content: space-between;
+    padding: 100px 0;
     box-sizing: border-box;
 }
 
 form {
     display: flex;
     flex-direction: column;
-    margin-bottom: auto; 
+    margin-bottom: auto;
     margin-top: auto;
 }
 
@@ -55,7 +55,6 @@ form {
     font-weight: bold;
     font-size: 15px;
     letter-spacing: 3px;
-
 }
 
 .txt-login2 {
@@ -69,41 +68,39 @@ form {
 .welcome-login {
     font-family: Montserrat;
     font-weight: bold;
-    font-size: 35px;
-    line-height: 25px;
-    letter-spacing: 10%;
+    font-size: 55px;
+    line-height: 1.1;
     color: #040C34;
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: 30px; /* FIX: era "100" sem px */
 }
 
 .inputs-box {
     display: flex;
     flex-direction: column;
     gap: 15px;
-
 }
 
 .input {
     border: 3px solid #050C32;
     border-radius: 8px;
-    width: 273;
+    width: 273px; /* FIX: era "273" sem px */
     height: 40px;
     font-family: Montserrat;
-    letter-spacing: 10%;
     color: #050C32;
     padding-left: 7px;
-    margin: auto;
+    box-sizing: border-box;
+    outline: none;
 }
 
 .forgot {
     color: #02C6F8;
     font-family: Montserrat;
     font-size: 10px;
-    letter-spacing: 10%;
     text-decoration: none;
     display: flex;
     justify-content: flex-end;
+    margin-top: 8px;
 }
 
 .buttons-form {
@@ -121,13 +118,13 @@ form {
     font-family: Montserrat;
     font-weight: bold;
     font-size: 13px;
-    letter-spacing: 10%;
     color: #FFFFFF;
-    display: flex;            
-    align-items: center;     
-    justify-content: center;   
-    text-decoration: none;   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 .btn-cadastro {
@@ -138,8 +135,73 @@ form {
     font-family: Montserrat;
     font-weight: bold;
     font-size: 13px;
-    letter-spacing: 10%;
     color: #050C32;
     background-color: #FFFFFF;
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-sizing: border-box;
+    cursor: pointer;
 }
+
+/* Mensagem de erro */
+.error-msg {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: Montserrat;
+    font-size: 12px;
+    font-weight: 600;
+    color: #B3261E;
+    margin-top: 8px;
+    min-height: 18px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    visibility: hidden;
+    pointer-events: none;
+}
+.error-msg.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+ }
+
+.input.input-error { border-color: #B3261E; animation: shake 0.35s ease; }
+
+@keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20%      { transform: translateX(-6px); }
+    40%      { transform: translateX(6px); }
+    60%      { transform: translateX(-4px); }
+    80%      { transform: translateX(4px); }
+}
+
+.btn-login.loading { pointer-events: none; opacity: 0.7; }
+.btn-login.loading::after {
+    content: '';
+    display: inline-block;
+    width: 12px; height: 12px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.dev-hint {
+    background: #f0f0ff;
+    border: 1px solid #c8c0f0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: Montserrat;
+    font-size: 11px;
+    color: #444;
+    margin-top: 16px;
+    line-height: 1.7;
+    width: 273px;
+}
+.dev-hint strong { color: #040C34; }
+.dev-hint a { color: #6750A4; cursor: pointer; text-decoration: underline; font-weight: 600; }

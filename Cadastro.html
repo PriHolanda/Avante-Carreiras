@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avante Carreiras — Cadastro</title>
+    <link rel="stylesheet" href="CSS/cadastro.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="./img/logo.png">
+</head>
+
+<body>
+    <main class="cadastro">
+
+        <!-- ── Lado esquerdo ── -->
+        <section class="cadastro-left">
+            <img src="./img/avante-logo.webp" alt="Logo Avante Carreiras" class="img-logo-cadastro">
+
+            <div class="cadastro-left-texts">
+                <h2 class="txt-cadastro">Crie sua conta</h2>
+                <h2 class="txt-cadastro">e faça parte</h2>
+                <h2 class="txt-cadastro">da equipe</h2>
+            </div>
+
+            <!-- Botão de retorno -->
+            <a href="login.html" class="btn-voltar">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"/>
+                    <polyline points="12 19 5 12 12 5"/>
+                </svg>
+                Voltar para o login
+            </a>
+        </section>
+
+        <!-- ── Lado direito ── -->
+        <section class="cadastro-right">
+            <h1 class="cadastro-title">Criar Conta</h1>
+            <p class="cadastro-subtitle">Preencha os dados abaixo para se cadastrar no sistema.</p>
+
+            <form id="cadastroForm" novalidate>
+                <div class="inputs-grid">
+
+                    <!-- Nome completo -->
+                    <div class="input-group input-full">
+                        <label class="input-label" for="nome">Nome completo</label>
+                        <input id="nome" class="cadastro-input" type="text"
+                            placeholder="Ex: Maria Oliveira Santos" autocomplete="name">
+                        <span class="field-error" id="erro-nome"></span>
+                    </div>
+
+                    <!-- E-mail -->
+                    <div class="input-group input-full">
+                        <label class="input-label" for="email">E-mail</label>
+                        <input id="email" class="cadastro-input" type="email"
+                            placeholder="seuemail@exemplo.com" autocomplete="email">
+                        <span class="field-error" id="erro-email"></span>
+                    </div>
+
+                    <!-- Setor -->
+                    <div class="input-group input-full">
+                        <label class="input-label" for="setor">Setor</label>
+                        <select id="setor" class="cadastro-select">
+                            <option value="" disabled selected>Selecione seu setor</option>
+                            <option value="Projetos">Projetos</option>
+                            <option value="Embarcados">Embarcados</option>
+                            <option value="Comercial">Comercial</option>
+                            <option value="Gestão de Pessoas">Gestão de Pessoas</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Direx">Direx</option>
+                        </select>
+                        <span class="field-error" id="erro-setor"></span>
+                    </div>
+
+                    <!-- Senha -->
+                    <div class="input-group">
+                        <label class="input-label" for="senha">Senha</label>
+                        <div class="pw-wrapper">
+                            <input id="senha" class="cadastro-input" type="password"
+                                placeholder="Mínimo 8 caracteres" autocomplete="new-password">
+                            <button type="button" class="toggle-pw" id="toggleSenha" aria-label="Mostrar senha">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <span class="strength-label" id="strengthLabel"></span>
+                        <span class="field-error" id="erro-senha"></span>
+                    </div>
+
+                    <!-- Confirmar senha -->
+                    <div class="input-group">
+                        <label class="input-label" for="confirmarSenha">Confirmar senha</label>
+                        <div class="pw-wrapper">
+                            <input id="confirmarSenha" class="cadastro-input" type="password"
+                                placeholder="Repita a senha" autocomplete="new-password">
+                            <button type="button" class="toggle-pw" id="toggleConfirmar" aria-label="Mostrar confirmação">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <span class="field-error" id="erro-confirmar"></span>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn-criar" id="btnCadastro">
+                    Criar conta
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <div class="toast" id="toast">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        Conta criada com sucesso! Redirecionando…
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="auth.js"></script>
+    <script src="cadastro.js"></script>
+</body>
+</html>
