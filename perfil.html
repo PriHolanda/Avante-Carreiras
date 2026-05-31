@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="CSS/perfil.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="icon" href="./img/logo.png">
 </head>
 
@@ -19,9 +19,12 @@
             <img src="./img/avante-logo.webp" alt="Logo Avante" class="img-logo">
 
             <div class="nav-list">
-                <a class="item-list" href="membros.html">Membros</a>
-                <a class="item-list" href="contato.html">Documentos</a>
-                <a class="item-list" href="">Mais</a>
+                <a class="item-list" href="membros.html">
+                    <i class="fa-solid fa-user-group"></i> Membros
+                </a>
+                <a class="item-list" href="documentos.html">
+                    <i class="fa-regular fa-folder"></i> Documentos
+                </a>
             </div>
         </nav>
     </aside>
@@ -81,6 +84,11 @@
         Copyright © 2026 Gabriel Dias Vale, Priscila da Silva Holanda, Vitória Rabelo Santiago. All rights reserved.
     </footer>
 
+    <script src="auth.js"></script>
+    <script src="nav.js"></script>
+<script>
+    NAV.init('admin');
+</script>
 </body>
 
 </html>
