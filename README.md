@@ -6,6 +6,11 @@ O projeto Avante Carreiras consiste no desenvolvimento de um sistema web voltado
 Atualmente, o processo é realizado de forma manual utilizando Google Drive, planilhas e aplicativos de mensagens, o que gera retrabalho, risco de perda de dados e dificuldade de acesso às informações.
 A proposta do sistema é permitir busca rápida por documentos, classificação automática, envio direto de arquivos e notificações inteligentes, tornando o processo mais eficiente, seguro e padronizado.
 
+## Membros
+| **Gabriel Dias** | Designer & Developer | [@Gabriel-dvdev](https://github.com/Gabriel-dvdev) |
+| **Priscila Holanda** | Developer | [@PriHolanda](https://github.com/PriHolanda) |
+| **Vitoria Rabelo** | Developer | [@Vitoria-Rabelo](https://github.com/Vitoria-Rabelo) |
+
 ## Telas
 * Login
 * Perfil do usuário

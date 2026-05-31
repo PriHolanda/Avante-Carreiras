@@ -29,7 +29,7 @@ body {
 /* ── Lado esquerdo ── */
 .cadastro-left {
     width: 40%;
-    background-image: url('../img/mosaico-login.png');
+    background-image: url('../assets/mosaico-login.png');
     background-size: cover;
     background-position: center;
     background-color: #040C33;
