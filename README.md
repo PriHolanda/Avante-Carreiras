@@ -11,6 +11,11 @@ A proposta do sistema é permitir busca rápida por documentos, classificação 
 | **Priscila Holanda** | Developer | [@PriHolanda](https://github.com/PriHolanda) |
 | **Vitoria Rabelo** | Developer | [@Vitoria-Rabelo](https://github.com/Vitoria-Rabelo) |
 
+
+## Ferramentas
+Prototipação: [Figma](https://www.figma.com/design/HpslgncbuZoRkGjTWrhTvi/Avante-Carreiras?node-id=0-1&t=b5eYby1TcTjSd3g1-1)
+Board: [Trello](https://trello.com/b/cI9Vs72r/avante-carreiras)
+
 ## Telas
 * Login
 * Perfil do usuário
