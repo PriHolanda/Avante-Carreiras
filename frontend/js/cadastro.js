@@ -53,7 +53,7 @@ function clearError(fieldId) {
 }
 
 function clearAll() {
-    ['nome', 'email', 'setor', 'senha', 'confirmar'].forEach(clearError);
+    ['nome', 'email', 'setor', 'nascimento', 'senha', 'confirmar'].forEach(clearError);
 }
 
 // Limpa erro ao interagir com o campo
@@ -61,10 +61,11 @@ function clearAll() {
     document.getElementById(id).addEventListener('input', () => clearError(id))
 );
 document.getElementById('setor').addEventListener('change', () => clearError('setor'));
+document.getElementById('nascimento').addEventListener('change', () => clearError('nascimento'));
 document.getElementById('confirmarSenha').addEventListener('input', () => clearError('confirmar'));
 
 // ── Validação ─────────────────────────────────────────────────────────────────
-function validate(nome, email, setor, senha, confirmar) {
+function validate(nome, email, setor, nascimento, senha, confirmar) {
     let ok = true;
     if (!nome.trim() || nome.trim().split(' ').length < 2) {
         setError('nome', 'Informe nome e sobrenome.'); ok = false;
@@ -74,6 +75,18 @@ function validate(nome, email, setor, senha, confirmar) {
     }
     if (!setor) {
         setError('setor', 'Selecione um setor.'); ok = false;
+    }
+    if (!nascimento) {
+        setError('nascimento', 'Informe a data de nascimento.'); ok = false;
+    } else {
+        const hoje = new Date();
+        const nasc = new Date(nascimento);
+        const idade = hoje.getFullYear() - nasc.getFullYear();
+        if (nasc > hoje) {
+            setError('nascimento', 'Data inválida.'); ok = false;
+        } else if (idade < 14) {
+            setError('nascimento', 'Idade mínima de 14 anos.'); ok = false;
+        }
     }
     if (senha.length < 8) {
         setError('senha', 'Mínimo 8 caracteres.'); ok = false;
@@ -92,10 +105,11 @@ document.getElementById('cadastroForm').addEventListener('submit', async (e) => 
     const nome      = document.getElementById('nome').value;
     const email     = document.getElementById('email').value.trim().toLowerCase();
     const setor     = document.getElementById('setor').value;
+    const nascimento = document.getElementById('nascimento').value;
     const senha     = document.getElementById('senha').value;
     const confirmar = document.getElementById('confirmarSenha').value;
 
-    if (!validate(nome, email, setor, senha, confirmar)) return;
+    if (!validate(nome, email, setor, nascimento, senha, confirmar)) return;
 
     const btn = document.getElementById('btnCadastro');
     btn.disabled = true;
@@ -104,7 +118,7 @@ document.getElementById('cadastroForm').addEventListener('submit', async (e) => 
 
     await new Promise(r => setTimeout(r, 700));
 
-    const result = await AUTH.register({ nome, email, senha, setor });
+    const result = await AUTH.register({ nome, email, senha, setor, nascimento });
 
     if (!result.ok) {
         btn.disabled = false;

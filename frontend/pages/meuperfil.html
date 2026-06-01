@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avante Carreiras - Meu Perfil</title>
+    <link rel="stylesheet" href="../css/perfil.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" href="../assets/logo.png">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <nav class="nav-container">
+            <img src="../assets/avante-logo.webp" alt="Logo Avante" class="img-logo">
+            <div class="nav-list">
+                <a class="item-list" href="membros.html" data-role-only="admin">
+                    <i class="fa-solid fa-user-group"></i> Membros
+                </a>
+                <a class="item-list" href="documentos.html" data-role-only="admin">
+                    <i class="fa-regular fa-folder"></i> Documentos
+                </a>
+                <a class="item-list active" href="meuperfil.html">
+                    <i class="fa-solid fa-user"></i> Meu Perfil
+                </a>
+                <!-- Sair é injetado pelo nav.js -->
+            </div>
+        </nav>
+    </aside>
+
+    <main>
+        <div class="container">
+            <div class="perfil-cabecalho">
+                <div class="avatar-perfil" id="avatarPerfil"></div>
+                <div class="info-perfil">
+                    <h1 data-user-nome>—</h1>
+                    <p><strong>Setor:</strong> <span data-user-setor>—</span></p>
+                    <p><strong>Data de Nascimento:</strong> <span data-user-nascimento>—</span></p>
+                    <p><strong>Data de Admissão:</strong> <span data-user-admissao>—</span></p>
+                    <p><strong>Email:</strong> <span data-user-email>—</span></p>
+                    <span class="role-badge" id="roleBadge"></span>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Data de Envio</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaDocumentos">
+                    <tr>
+                        <td colspan="3" style="text-align:center; color:#888; padding: 30px 0;">
+                            Carregando documentos...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer>
+        Copyright © 2026 Gabriel Dias Vale, Priscila da Silva Holanda, Vitória Rabelo Santiago. All rights reserved.
+    </footer>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/perfil.js"></script>
+</body>
+</html>
