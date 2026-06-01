@@ -122,6 +122,20 @@ app.get('/api/me', authMiddleware, async (req, res) => {
   res.json({ ok: true, user: rows[0] });
 });
 
-app.listen(process.env.PORT, () =>
-  console.log(`Avante API rodando em http://localhost:${process.env.PORT}`)
+const { recuperarSenha, redefinirSenha } = require('./redefinir-senha');
+app.post('/api/recuperar-senha', recuperarSenha);
+app.post('/api/redefinir-senha', redefinirSenha);
+
+const PORT = process.env.PORT || 3000;
+
+const server = app.listen(PORT, () =>
+  console.log(`Avante API rodando em http://localhost:${PORT}`)
 );
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Erro: porta ${PORT} já está em uso. Pare o processo atual ou use outra porta.`);
+    process.exit(1);
+  }
+  throw err;
+});

@@ -50,6 +50,34 @@ const AUTH = (() => {
     }
   }
 
+  async function requestPasswordReset(email) {
+    try {
+      const res = await fetch(`${API_BASE}/recuperar-senha`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      const data = await res.json();
+      return data.ok ? { ok: true } : { ok: false, error: data.error };
+    } catch {
+      return { ok: false, error: 'N\u00e3o foi poss\u00edvel conectar ao servidor.' };
+    }
+  }
+
+  async function resetPassword(email, codigo, novaSenha) {
+    try {
+      const res = await fetch(`${API_BASE}/redefinir-senha`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, codigo, novaSenha })
+      });
+      const data = await res.json();
+      return data.ok ? { ok: true } : { ok: false, error: data.error };
+    } catch {
+      return { ok: false, error: 'N\u00e3o foi poss\u00edvel conectar ao servidor.' };
+    }
+  }
+
   function getSession() {
     try {
       const raw = localStorage.getItem(SESSION_KEY);
@@ -103,5 +131,5 @@ const AUTH = (() => {
     });
   }
 
-  return { login, logout, register, getSession, requireAuth, injectUserData, initDB };
+  return { login, logout, register, requestPasswordReset, resetPassword, getSession, requireAuth, injectUserData, initDB };
 })();

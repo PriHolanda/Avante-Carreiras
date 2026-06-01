@@ -1,2 +1,5 @@
 .env
 seed.js
+server.log
+server-error.log
+node_modules/

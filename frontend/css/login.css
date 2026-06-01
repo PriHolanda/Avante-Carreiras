@@ -147,7 +147,7 @@ form {
 
 /* Mensagem de erro */
 .error-msg {
-    display: flex;
+    display: none;
     align-items: center;
     gap: 6px;
     font-family: Montserrat;
@@ -155,17 +155,13 @@ form {
     font-weight: 600;
     color: #B3261E;
     margin-top: 8px;
-    min-height: 18px;
-    opacity: 0;
-    transition: opacity 0.2s;
-    visibility: hidden;
     pointer-events: none;
 }
+
 .error-msg.visible {
-    opacity: 1;
-    visibility: visible;
+    display: flex;
     pointer-events: auto;
- }
+}
 
 .input.input-error { border-color: #B3261E; animation: shake 0.35s ease; }
 

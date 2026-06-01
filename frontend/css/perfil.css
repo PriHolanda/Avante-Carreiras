@@ -171,6 +171,16 @@ footer {
     pointer-events: none;
 }
 
+.avatar-perfil {
+    width: 93px;
+    height: 93px;
+    border-radius: 100%;
+    border: solid 2px black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 @media (max-width: 768px) {
     body {
         flex-direction: column;

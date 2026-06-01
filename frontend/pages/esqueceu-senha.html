@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avante Carreiras - Recuperar senha</title>
+    <link rel="stylesheet" href="../css/esqueceu-senha.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="../assets/logo.png">
+</head>
+
+<body>
+    <main class="recuperar">
+        <section class="recuperar-left">
+            
+            <div class="recuperar-left-texts">
+                <img src="../assets/avante-logo.webp" alt="Logo Avante Carreiras" class="img-logo-recuperar">
+                <h2 class="txt-recuperar">Recupere seu acesso <br> com segurança</h2>
+            </div>
+
+            <a href="./login.html" class="btn-voltar">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"/>
+                    <polyline points="12 19 5 12 12 5"/>
+                </svg>
+                Voltar para o login
+            </a>
+        </section>
+
+        <section class="recuperar-right">
+            <div class="recuperar-content">
+                <h1 class="recuperar-title">Esqueceu a senha?</h1>
+                <p class="recuperar-subtitle" id="recuperarSubtitle">Informe seu e-mail cadastrado para receber um c&oacute;digo de verifica&ccedil;&atilde;o.</p>
+
+                <form id="recuperarForm" novalidate>
+                    <div class="input-group" id="emailGroup">
+                        <label class="input-label" for="emailRecuperacao">E-mail</label>
+                        <input id="emailRecuperacao" class="recuperar-input" type="email"
+                            placeholder="seuemail@exemplo.com" autocomplete="email">
+                        <span class="field-error" id="erro-emailRecuperacao"></span>
+                    </div>
+
+                    <div class="codigo-box" id="codigoBox" aria-live="polite">
+                        Enviamos um c&oacute;digo de verifica&ccedil;&atilde;o para o e-mail informado.
+                    </div>
+
+                    <div class="reset-fields" id="resetFields">
+                        <div class="input-group">
+                            <label class="input-label" for="codigoVerificacao">C&oacute;digo de verifica&ccedil;&atilde;o</label>
+                            <input id="codigoVerificacao" class="recuperar-input" type="text"
+                                placeholder="Digite o c&oacute;digo recebido" inputmode="numeric" maxlength="6" autocomplete="one-time-code">
+                            <span class="field-error" id="erro-codigoVerificacao"></span>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label" for="novaSenha">Nova senha</label>
+                            <input id="novaSenha" class="recuperar-input" type="password"
+                                placeholder="M&iacute;nimo 8 caracteres" autocomplete="new-password">
+                            <span class="field-error" id="erro-novaSenha"></span>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label" for="confirmarNovaSenha">Confirmar nova senha</label>
+                            <input id="confirmarNovaSenha" class="recuperar-input" type="password"
+                                placeholder="Repita a nova senha" autocomplete="new-password">
+                            <span class="field-error" id="erro-confirmarNovaSenha"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-enviar" id="btnEnviar">
+                        Enviar c&oacute;digo
+                    </button>
+                </form>
+
+                <p class="recuperar-help">
+                    Lembrou sua senha?
+                    <a href="./login.html">Entrar agora</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <div class="toast" id="toast">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        Senha redefinida com sucesso.
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/esqueceu-senha.js"></script>
+</body>
+
+</html>

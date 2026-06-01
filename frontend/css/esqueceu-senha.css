@@ -15,8 +15,7 @@ body {
     min-height: 100vh;
 }
 
-/* ── Card principal ── */
-.cadastro {
+.recuperar {
     border-radius: 25px;
     width: 80%;
     max-width: 1343px;
@@ -26,8 +25,7 @@ body {
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
 }
 
-/* ── Lado esquerdo ── */
-.cadastro-left {
+.recuperar-left {
     width: 40%;
     background-image: url('../assets/mosaico-login.png');
     background-size: cover;
@@ -39,22 +37,23 @@ body {
     justify-content: space-between;
 }
 
-.img-logo-cadastro {
+.img-logo-recuperar {
     width: 200px;
 }
 
-.cadastro-left-texts {
+.recuperar-left-texts {
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
 
-.txt-cadastro {
+.txt-recuperar {
     color: #02C6F8;
     font-weight: bold;
     font-size: 15px;
     letter-spacing: 3px;
     line-height: 1.8;
+    text-transform: uppercase;
 }
 
 .btn-voltar {
@@ -80,46 +79,67 @@ body {
     color: #02C6F8;
 }
 
-/* ── Lado direito ── */
-.cadastro-right {
+.recuperar-right {
     width: 60%;
     background-color: #FFFFFF;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
     padding: 50px 65px;
-    overflow-y: auto;
 }
 
-.cadastro-title {
+.recuperar-content {
+    width: 100%;
+    max-width: 430px;
+}
+
+.recuperar-title {
     font-weight: 800;
     font-size: 32px;
     color: #040C34;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
-.cadastro-subtitle {
+.recuperar-subtitle {
     font-size: 13px;
     font-weight: 500;
     color: #888;
+    line-height: 1.6;
     margin-bottom: 32px;
-}
-
-/* ── Grid de campos ── */
-.inputs-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px 24px;
-}
-
-.input-full {
-    grid-column: 1 / -1;
 }
 
 .input-group {
     display: flex;
     flex-direction: column;
     gap: 6px;
+}
+
+.reset-fields {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.reset-fields.visible {
+    display: flex;
+}
+
+.codigo-box {
+    display: none;
+    margin-top: 14px;
+    border-radius: 8px;
+    border: 2px solid rgba(2, 198, 248, 0.35);
+    background-color: rgba(2, 198, 248, 0.08);
+    color: #050C32;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
+    padding: 12px 14px;
+}
+
+.codigo-box.visible {
+    display: block;
 }
 
 .input-label {
@@ -130,12 +150,10 @@ body {
     color: #050C32;
 }
 
-/* Campos de texto — mesmo estilo do login.css */
-.cadastro-input {
+.recuperar-input {
     border: 3px solid #050C32;
     border-radius: 8px;
     height: 44px;
-    font-family: Montserrat;
     font-size: 13px;
     font-weight: 500;
     color: #050C32;
@@ -145,96 +163,14 @@ body {
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.cadastro-input:focus {
+.recuperar-input:focus {
     border-color: #02C6F8;
     box-shadow: 0 0 0 3px rgba(2, 198, 248, 0.12);
 }
 
-.cadastro-input.input-error {
+.recuperar-input.input-error {
     border-color: #B3261E;
     animation: shake 0.35s ease;
-}
-
-/* Select */
-.cadastro-select {
-    border: 3px solid #050C32;
-    border-radius: 8px;
-    height: 44px;
-    font-family: Montserrat;
-    font-size: 13px;
-    font-weight: 500;
-    color: #050C32;
-    padding: 0 14px;
-    background-color: #FFFFFF;
-    -webkit-appearance: none;
-    appearance: none;
-    cursor: pointer;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23050C32'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 20px;
-}
-
-.cadastro-select:focus {
-    border-color: #02C6F8;
-    box-shadow: 0 0 0 3px rgba(2, 198, 248, 0.12);
-}
-
-.cadastro-select.input-error {
-    border-color: #B3261E;
-    animation: shake 0.35s ease;
-}
-
-.pw-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.pw-wrapper .cadastro-input {
-    width: 100%;
-    padding-right: 42px;
-}
-
-.toggle-pw {
-    position: absolute;
-    right: 12px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #888;
-    padding: 4px;
-    display: flex;
-    align-items: center;
-    transition: color 0.2s;
-}
-
-.toggle-pw:hover { color: #050C32; }
-
-.strength-bar {
-    height: 4px;
-    border-radius: 2px;
-    background: #eee;
-    margin-top: 4px;
-    overflow: hidden;
-}
-
-.strength-fill {
-    height: 100%;
-    border-radius: 2px;
-    width: 0%;
-    transition: width 0.3s, background-color 0.3s;
-}
-
-.strength-label {
-    font-size: 10px;
-    font-weight: 700;
-    color: #aaa;
-    margin-top: 3px;
-    letter-spacing: 0.5px;
-    transition: color 0.3s;
 }
 
 .field-error {
@@ -246,16 +182,17 @@ body {
     transition: opacity 0.2s;
 }
 
-.field-error.visible { opacity: 1; }
+.field-error.visible {
+    opacity: 1;
+}
 
-.btn-criar {
-    margin-top: 28px;
+.btn-enviar {
+    margin-top: 18px;
     width: 100%;
     height: 44px;
     border-radius: 8px;
     background-color: #050C32;
     border: 4px solid #050C32;
-    font-family: Montserrat;
     font-weight: bold;
     font-size: 13px;
     letter-spacing: 1px;
@@ -265,23 +202,46 @@ body {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    transition: background 0.2s;
+    transition: background 0.2s, border-color 0.2s, opacity 0.2s;
 }
 
-.btn-criar:hover:not(:disabled) { background: #0a1560; border-color: #0a1560; }
-.btn-criar:disabled { opacity: 0.7; cursor: not-allowed; }
+.btn-enviar:hover:not(:disabled) {
+    background-color: #0a1560;
+    border-color: #0a1560;
+}
 
-.btn-criar.loading::after {
+.btn-enviar:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.btn-enviar.loading::after {
     content: '';
     width: 13px;
     height: 13px;
     border: 2px solid rgba(255, 255, 255, 0.35);
-    border-top-color: #fff;
+    border-top-color: #FFFFFF;
     border-radius: 50%;
     animation: spin 0.6s linear infinite;
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+.recuperar-help {
+    margin-top: 22px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #888;
+    text-align: center;
+}
+
+.recuperar-help a {
+    color: #02A9D6;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.recuperar-help a:hover {
+    text-decoration: underline;
+}
 
 .toast {
     position: fixed;
@@ -289,8 +249,7 @@ body {
     left: 50%;
     transform: translateX(-50%) translateY(20px);
     background: #1a6e3a;
-    color: #fff;
-    font-family: Montserrat;
+    color: #FFFFFF;
     font-size: 13px;
     font-weight: 600;
     padding: 14px 28px;
@@ -311,16 +270,53 @@ body {
     transform: translateX(-50%) translateY(0);
 }
 
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 @media (max-width: 900px) {
-    .cadastro { width: 95%; }
-    .cadastro-right { padding: 40px 36px; }
+    .recuperar { width: 95%; }
+    .recuperar-right { padding: 40px 36px; }
 }
 
 @media (max-width: 700px) {
-    .cadastro { flex-direction: column; width: 100%; min-height: 100vh; border-radius: 0; }
-    .cadastro-left { width: 100%; min-height: 160px; padding: 28px; justify-content: flex-start; gap: 16px; }
-    .cadastro-left-texts { display: none; }
-    .cadastro-right { width: 100%; padding: 32px 24px; }
-    .inputs-grid { grid-template-columns: 1fr; }
-    .input-full { grid-column: 1; }
+    .recuperar {
+        flex-direction: column;
+        width: 100%;
+        min-height: 100vh;
+        border-radius: 0;
+    }
+
+    .recuperar-left {
+        width: 100%;
+        min-height: 160px;
+        padding: 28px;
+        justify-content: flex-start;
+        gap: 16px;
+    }
+
+    .recuperar-left-texts {
+        display: none;
+    }
+
+    .recuperar-right {
+        width: 100%;
+        flex: 1;
+        padding: 32px 24px;
+    }
+
+    .toast {
+        width: calc(100% - 32px);
+        justify-content: center;
+        white-space: normal;
+        text-align: center;
+    }
 }
