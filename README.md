@@ -7,9 +7,9 @@ Atualmente, o processo é realizado de forma manual utilizando Google Drive, pla
 A proposta do sistema é permitir busca rápida por documentos, classificação automática, envio direto de arquivos e notificações inteligentes, tornando o processo mais eficiente, seguro e padronizado.
 
 ## Membros
-| **Gabriel Dias** | Designer & Developer | [@Gabriel-dvdev](https://github.com/Gabriel-dvdev) |
-| **Priscila Holanda** | Developer | [@PriHolanda](https://github.com/PriHolanda) |
-| **Vitoria Rabelo** | Developer | [@Vitoria-Rabelo](https://github.com/Vitoria-Rabelo) |
+| **Gabriel Dias** | Designer & Developer & DBA | [@Gabriel-dvdev](https://github.com/Gabriel-dvdev) | <br/>
+| **Priscila Holanda** | Developer | [@PriHolanda](https://github.com/PriHolanda) | <br/>
+| **Vitoria Rabelo** | Developer | [@Vitoria-Rabelo](https://github.com/Vitoria-Rabelo) | <br/>
 
 
 ## Ferramentas,
