@@ -33,18 +33,4 @@ Board: [Trello](https://trello.com/b/cI9Vs72r/avante-carreiras)
 
 * Link do repositório : https://github.com/PriHolanda/Avante-Carreiras
 * Link do board (Trello/etc): https://trello.com/invite/b/69ffd2851b67e32c5f182ef2/ATTI5aa921bc55820db862a2d4e1c4311de042136DAD/avante-carreiras
-* Link do protótipo: https://www.figma.com/design/HpslgncbuZoRkGjTWrhTvi/Avante-Carreiras?node-id=0-1&t=xPflu1bsBjlbJPcX-1e 'git help git' for an overview of the system.
-PS C:\Users\prisc\OneDrive\Documentos\UFC - QUIXADÁ\5° SEMESTRE\Engenharia de Software - Diana Braga\Atividades e Trabalhos\Avante Carreiras\backend> git remote add origin https://github.com/PriHolanda/Avante-Carreiras.git
-PS C:\Users\prisc\OneDrive\Documentos\UFC - QUIXADÁ\5° SEMESTRE\Engenharia de Software - Diana Braga\Atividades e Trabalhos\Avante Carreiras\backend> git push -u origin main
-error: src refspec main does not match any
-error: failed to push some refs to 'https://github.com/PriHolanda/Avante-Carreiras.git'
-PS C:\Users\prisc\OneDrive\Documentos\UFC - QUIXADÁ\5° SEMESTRE\Engenharia de Software - Diana Braga\Atividades e Trabalhos\Avante Carreiras\backend> git push
-fatal: The current branch master has no upstream branch.
-To push the current branch and set the remote as upstream, use
-
-    git push --set-upstream origin master
-
-To have this happen automatically for branches without a tracking
-upstream, see 'push.autoSetupRemote' in 'git help config'.
-
-PS C:\Users\prisc\OneDrive\Documentos\UFC - QUIXADÁ\5° SEMESTRE\Engenharia de Software - Diana Braga\Atividades e Trabalhos\Avante Carreiras\backend> 
+* Link do protótipo: https://www.figma.com/design/HpslgncbuZoRkGjTWrhTvi/Avante-Carreiras?node-id=0-1&t=xPflu1bsBjlbJPcX-1e 
