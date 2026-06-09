@@ -31,6 +31,7 @@ Board: [Trello](https://trello.com/b/cI9Vs72r/avante-carreiras)
 * Layout com sidebar reutilizável
 * Navegação entre páginas (simulada)
 
-* Link do repositório : https://github.com/PriHolanda/Avante-Carreiras
-* Link do board (Trello/etc): https://trello.com/invite/b/69ffd2851b67e32c5f182ef2/ATTI5aa921bc55820db862a2d4e1c4311de042136DAD/avante-carreiras
-* Link do protótipo: https://www.figma.com/design/HpslgncbuZoRkGjTWrhTvi/Avante-Carreiras?node-id=0-1&t=xPflu1bsBjlbJPcX-1e 
+##Links
+* Repositório : https://github.com/PriHolanda/Avante-Carreiras
+* Board (Trello/etc): https://trello.com/invite/b/69ffd2851b67e32c5f182ef2/ATTI5aa921bc55820db862a2d4e1c4311de042136DAD/avante-carreiras
+* Protótipo (Figma): https://www.figma.com/design/HpslgncbuZoRkGjTWrhTvi/Avante-Carreiras?node-id=0-1&t=xPflu1bsBjlbJPcX-1e 
