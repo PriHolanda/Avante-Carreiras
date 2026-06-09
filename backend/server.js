@@ -122,6 +122,80 @@ app.get('/api/me', authMiddleware, async (req, res) => {
   res.json({ ok: true, user: rows[0] });
 });
 
+// ── Upload de documentos ─────────────────────────────────────────────────────
+const multer = require('multer');
+const path   = require('path');
+const fs     = require('fs');
+
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadsDir),
+  filename: (req, file, cb) => {
+    const ext       = path.extname(file.originalname).toLowerCase();
+    const unique    = `${Date.now()}-${Math.round(Math.random() * 1e6)}`;
+    const nomeGerado = `doc-${req.user.userId}-${unique}${ext}`;
+    cb(null, nomeGerado);
+  }
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'application/pdf') return cb(null, true);
+    cb(new Error('Apenas arquivos PDF são permitidos.'));
+  }
+});
+
+// POST /api/documentos/upload
+app.post('/api/documentos/upload', authMiddleware, (req, res, next) => {
+  upload.single('arquivo')(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ ok: false, error: err.message });
+    }
+    if (!req.file) {
+      return res.status(400).json({ ok: false, error: 'Nenhum arquivo enviado.' });
+    }
+
+    const { tipo = 'voluntariado' } = req.body;
+    const tamanho_kb = Math.round(req.file.size / 1024);
+
+    try {
+      const { rows } = await pool.query(
+        `INSERT INTO documentos (usuario_id, nome_arquivo, nome_original, tipo, status, tamanho_kb)
+         VALUES ($1, $2, $3, $4, 'pendente', $5)
+         RETURNING id, nome_original, tipo, status, enviado_em`,
+        [req.user.userId, req.file.filename, req.file.originalname, tipo, tamanho_kb]
+      );
+      res.status(201).json({ ok: true, documento: rows[0] });
+    } catch (dbErr) {
+      console.error(dbErr);
+      // Remove arquivo se falhou ao salvar no banco
+      fs.unlink(req.file.path, () => {});
+      res.status(500).json({ ok: false, error: 'Erro ao salvar documento.' });
+    }
+  });
+});
+
+// GET /api/documentos — lista documentos do usuário logado
+app.get('/api/documentos', authMiddleware, async (req, res) => {
+  try {
+    const { rows } = await pool.query(
+      `SELECT id, nome_original, tipo, status, tamanho_kb, enviado_em
+       FROM documentos
+       WHERE usuario_id = $1
+       ORDER BY enviado_em DESC`,
+      [req.user.userId]
+    );
+    res.json({ ok: true, documentos: rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ ok: false, error: 'Erro ao buscar documentos.' });
+  }
+});
+
 const { recuperarSenha, redefinirSenha } = require('./redefinir-senha');
 app.post('/api/recuperar-senha', recuperarSenha);
 app.post('/api/redefinir-senha', redefinirSenha);
