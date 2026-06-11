@@ -160,6 +160,7 @@ body {
 }
 
 .table-body {
+    height: 300px;
     max-height: 300px; 
     overflow-y: scroll; /* Força a existência da barra para não deslocar o layout */
     overflow-x: hidden;
@@ -200,6 +201,16 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+    min-width: 0;
+}
+
+.documentos-page .people span,
+.membros-page .people span {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .name-user{

@@ -8,28 +8,25 @@
     <link rel="stylesheet" href="../css/membros.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="icon" href="../assets/logo.png">
 </head>
 
-<body>
+<body class="membros-page">
     <aside class="sidebar">
         <nav class="nav-container">
             <img src="../assets/avante-logo.webp" alt="Logo Avante" class="img-logo">
 
-           <div class="nav-list">
-    <a class="item-list active" href="membros.html">
-        <i class="fa-solid fa-user-group"></i> Membros
-    </a>
-    
-    <a class="item-list" href="documentos.html">
-        <i class="fa-regular fa-folder"></i> Documentos
-    </a>
-    
-   
-</div>
+            <div class="nav-list">
+                <a class="item-list active" href="membros.html">
+                    <i class="fa-solid fa-user-group"></i> Membros
+                </a>
+
+                <a class="item-list" href="documentos.html">
+                    <i class="fa-regular fa-folder"></i> Documentos
+                </a>
+            </div>
         </nav>
     </aside>
 
@@ -37,17 +34,18 @@
         <div class="main-container">
             <div class="search-box">
                 <i class="fa-solid fa-bars"></i>
-                <input type="search" placeholder="Buscar membro..." class="search-input">
+                <input type="search" placeholder="Buscar membro..." class="search-input" id="buscaMembros">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
 
             <section class="main-table">
                 <div class="tabs-container">
                     <ul class="tabs-menu">
+                        <li class="tab-item active" data-setor="todos">Todos</li>
                         <li class="tab-item" data-setor="projetos">Projetos</li>
                         <li class="tab-item" data-setor="embarcados">Embarcados</li>
                         <li class="tab-item" data-setor="comercial">Comercial</li>
-                        <li class="tab-item" data-setor="gestão">Gestão de Pessoas</li>
+                        <li class="tab-item" data-setor="gestao">Gestao de Pessoas</li>
                         <li class="tab-item" data-setor="marketing">Marketing</li>
                     </ul>
                 </div>
@@ -55,99 +53,22 @@
                 <div class="table-container">
                     <div class="table-header">
                         <span class="table-header-item">Nome</span>
-                        <span class="table-header-item">Data de admissão</span>
+                        <span class="table-header-item">Data de admissao</span>
                         <span class="table-header-item">Status</span>
                     </div>
 
-                    <div class="table-body">
-                        <div class="row">
-                            <div class="people">
-                                <div class="icon-user">P</div>
-                                <span>Priscila da Silva Holanda</span>
-                            </div>
-                            <span class="col">29/05/2023</span>
-                            <div class="status-regular">
-                                <i class="fa-solid fa-check"></i>
-                                Regular</div>
-                        </div>
-
-                        <div class="row">
-                            <div class="people">
-                                <div class="icon-user">G</div>
-                                <span>Gabriel Dias Vale</span>
-                            </div>
-
-                            <span class="col">30/05/2023</span>
-                            <div class="status-regular">
-                                <i class="fa-solid fa-check"></i>
-                                Regular
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="people">
-                                <div class="icon-user">V</div>
-                                <span><a class="name-user" href="perfil.html">Vitória Rabelo Santiago</a></span>
-                            </div>
-
-                            <span class="col">31/05/2023</span>
-                            <div class="status-pendente">
-                                <i class="fa-solid fa-spinner"></i>
-                                Pendente
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="people">
-                                <div class="icon-user">P</div>
-                                <span>Priscila da Silva Holanda</span>
-                            </div>
-
-                            <span class="col">29/05/2023</span>
-                            <div class="status-pendente">
-                                <i class="fa-solid fa-spinner"></i>
-                                Pendente
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="people">
-                                <div class="icon-user">E</div>
-                                <span>Eduarda Santos Costa</span>
-                            </div>
-
-                            <span class="col">14/05/2024</span>
-                            <div class="status-erro">
-                                <i class="fa-solid fa-circle-exclamation"></i>
-                                Erro
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="people">
-                                <div class="icon-user">J</div>
-                                <span>João Silva Costa</span>
-                            </div>
-
-                            <span class="col">20/08/2024</span>
-                            <div class="status-erro">
-                                <i class="fa-solid fa-circle-exclamation"></i>
-                                Erro
-                            </div>
-                        </div>
-
-                    </div>
+                    <div class="table-body" id="tabelaMembros"></div>
                 </div>
             </section>
         </div>
     </main>
 
     <script src="../js/auth.js"></script>
-     <script src="../js/nav.js"></script>
-<script>
-    NAV.init('admin');
-</script>
-
+    <script src="../js/nav.js"></script>
+    <script src="../js/membros.js"></script>
+    <script>
+        NAV.init('admin');
+    </script>
 </body>
 
 </html>
