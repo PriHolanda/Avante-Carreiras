@@ -187,6 +187,15 @@ body {
     font-size: 13px;
 }
 
+.empty-row {
+    background-color: #FFFFFF;
+    color: #49454F;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 32px 20px;
+    text-align: center;
+}
+
 .people {
     display: flex;
     align-items: center;
