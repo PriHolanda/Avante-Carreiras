@@ -46,12 +46,40 @@
                 </div>
             </div>
 
+            <!-- ── Área de upload ── -->
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-dropzone" id="uploadDropzone">
+                    <i class="fa-solid fa-file-arrow-up upload-icon"></i>
+                    <p class="upload-label">Arraste um PDF aqui ou <span class="upload-link">clique para selecionar</span></p>
+                    <p class="upload-hint">Apenas arquivos PDF • Máximo 10 MB</p>
+                    <input type="file" id="uploadInput" accept="application/pdf" hidden>
+                </div>
+                <div class="upload-preview" id="uploadPreview">
+                    <i class="fa-solid fa-file-pdf upload-preview-icon"></i>
+                    <span class="upload-preview-nome" id="uploadPreviewNome"></span>
+                    <button class="upload-preview-remover" id="uploadRemover" type="button" title="Remover">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="upload-tipo-group">
+                    <label class="upload-tipo-label" for="uploadTipo">Tipo de documento</label>
+                    <select id="uploadTipo" class="upload-tipo-select">
+                        <option value="voluntariado">Voluntariado</option>
+                        <option value="recissao">Recissão</option>
+                    </select>
+                </div>
+                <button class="btn-upload" id="btnUpload" type="button" disabled>
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Enviar documento
+                </button>
+                <p class="upload-feedback" id="uploadFeedback"></p>
+            </div>
+
             <table>
                 <thead>
                     <tr>
                         <th>Nome</th>
                         <th>Data de Envio</th>
-                        <th>Status</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="tabelaDocumentos">

@@ -14,26 +14,22 @@ body {
 }
 
 .sidebar {
-    height: 100vh;
+    min-height: 100vh;
     width: 280px;
     display: flex;
     background-color: #040C34;
 }
-
 .nav-container {
     padding: 40px 20px;
     width: 100%;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+
 }
 
 .nav-list {
     display: flex;
     flex-direction: column;
     width: 100%;
-    flex: 1;
 }
 
 .item-list {
@@ -64,7 +60,9 @@ main {
     padding: 60px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    background-color: #000F5B;
+    min-height: 100vh;
 }
 
 .container {
@@ -171,16 +169,6 @@ footer {
     pointer-events: none;
 }
 
-.avatar-perfil {
-    width: 93px;
-    height: 93px;
-    border-radius: 100%;
-    border: solid 2px black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 @media (max-width: 768px) {
     body {
         flex-direction: column;
@@ -253,3 +241,82 @@ footer {
         padding: 15px 0;
     }
 }
+/* ── Upload de documentos ──────────────────────────────────────────────────── */
+.upload-area {
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.upload-dropzone {
+    border: 2px dashed #C8C0F0;
+    border-radius: 12px;
+    padding: 32px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    background: #FAFAFF;
+}
+.upload-dropzone:hover, .upload-dropzone.drag-over {
+    border-color: #6750A4;
+    background: #F0EDFB;
+}
+.upload-icon { font-size: 32px; color: #6750A4; margin-bottom: 10px; display: block; }
+.upload-label { font-size: 14px; font-weight: 500; color: #050C32; margin-bottom: 4px; }
+.upload-link { color: #6750A4; font-weight: 700; text-decoration: underline; }
+.upload-hint { font-size: 11px; color: #aaa; }
+.upload-preview {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    background: #F0EDFB;
+    border: 1px solid #C8C0F0;
+    border-radius: 10px;
+    padding: 12px 16px;
+}
+.upload-preview-icon { font-size: 22px; color: #B3261E; flex-shrink: 0; }
+.upload-preview-nome {
+    flex: 1; font-size: 13px; font-weight: 500; color: #050C32;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.upload-preview-remover {
+    background: none; border: none; cursor: pointer;
+    color: #888; font-size: 16px; padding: 4px;
+    transition: color 0.2s; flex-shrink: 0;
+}
+.upload-preview-remover:hover { color: #B3261E; }
+.upload-tipo-group { display: flex; flex-direction: column; gap: 6px; }
+.upload-tipo-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: #050C32;
+}
+.upload-tipo-select {
+    border: 2px solid #050C32; border-radius: 8px; height: 40px;
+    font-family: Montserrat; font-size: 13px; font-weight: 500;
+    color: #050C32; padding: 0 12px; background: #fff;
+    outline: none; cursor: pointer; max-width: 280px;
+    transition: border-color 0.2s;
+}
+.upload-tipo-select:focus { border-color: #6750A4; }
+.btn-upload {
+    width: fit-content; padding: 10px 24px; border-radius: 8px;
+    background: #040C34; border: 2px solid #040C34; color: #fff;
+    font-family: Montserrat; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: background 0.2s, opacity 0.2s;
+    display: flex; align-items: center; gap: 8px;
+}
+.btn-upload:hover:not(:disabled) { background: #0a1560; border-color: #0a1560; }
+.btn-upload:disabled { opacity: 0.45; cursor: not-allowed; }
+.upload-feedback { font-size: 12px; font-weight: 600; min-height: 16px; }
+.feedback-erro    { color: #B3261E; }
+.feedback-sucesso { color: #1a6e3a; }
+
+/* ── Botão de download ─────────────────────────────────────────────────────── */
+.btn-download {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 12px; border-radius: 6px; font-size: 12px;
+    font-family: Montserrat; font-weight: 600; cursor: pointer;
+    border: 2px solid #040C34; background: transparent; color: #040C34;
+    transition: background 0.2s, color 0.2s;
+}
+.btn-download:hover { background: #040C34; color: #fff; }
