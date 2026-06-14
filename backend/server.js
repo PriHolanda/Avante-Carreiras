@@ -122,6 +122,137 @@ app.get('/api/me', authMiddleware, async (req, res) => {
   res.json({ ok: true, user: rows[0] });
 });
 
+
+// ── Upload de documentos ─────────────────────────────────────────────────────
+const multer = require('multer');
+const path   = require('path');
+const fs     = require('fs');
+
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadsDir),
+  filename: (req, file, cb) => {
+    const ext        = path.extname(file.originalname).toLowerCase();
+    const unique     = `${Date.now()}-${Math.round(Math.random() * 1e6)}`;
+    cb(null, `doc-${req.user.userId}-${unique}${ext}`);
+  }
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'application/pdf') return cb(null, true);
+    cb(new Error('Apenas arquivos PDF são permitidos.'));
+  }
+});
+
+// POST /api/documentos/upload
+app.post('/api/documentos/upload', authMiddleware, (req, res) => {
+  upload.single('arquivo')(req, res, async (err) => {
+    if (err) return res.status(400).json({ ok: false, error: err.message });
+    if (!req.file) return res.status(400).json({ ok: false, error: 'Nenhum arquivo enviado.' });
+
+    const { tipo = 'voluntariado' } = req.body;
+    const tamanho_kb = Math.round(req.file.size / 1024);
+
+    try {
+      const { rows } = await pool.query(
+        `INSERT INTO documentos (usuario_id, nome_arquivo, nome_original, tipo, status, tamanho_kb)
+         VALUES ($1, $2, $3, $4, 'pendente', $5)
+         RETURNING id, nome_original, tipo, status, enviado_em`,
+        [req.user.userId, req.file.filename, req.file.originalname, tipo, tamanho_kb]
+      );
+      res.status(201).json({ ok: true, documento: rows[0] });
+    } catch (dbErr) {
+      console.error(dbErr);
+      fs.unlink(req.file.path, () => {});
+      res.status(500).json({ ok: false, error: 'Erro ao salvar documento.' });
+    }
+  });
+});
+
+// GET /api/documentos — lista documentos do usuário logado
+app.get('/api/documentos', authMiddleware, async (req, res) => {
+  try {
+    const { rows } = await pool.query(
+      `SELECT id, nome_arquivo, nome_original, tipo, status, tamanho_kb, enviado_em
+       FROM documentos WHERE usuario_id = $1 ORDER BY enviado_em DESC`,
+      [req.user.userId]
+    );
+    res.json({ ok: true, documentos: rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ ok: false, error: 'Erro ao buscar documentos.' });
+  }
+});
+
+// GET /api/documentos/:id/download
+app.get('/api/documentos/:id/download', authMiddleware, async (req, res) => {
+  try {
+    const { rows } = await pool.query('SELECT * FROM documentos WHERE id = $1', [req.params.id]);
+    const doc = rows[0];
+    if (!doc) return res.status(404).json({ ok: false, error: 'Documento não encontrado.' });
+    if (req.user.role !== 'admin' && doc.usuario_id !== req.user.userId)
+      return res.status(403).json({ ok: false, error: 'Acesso negado.' });
+
+    const filePath = path.join(uploadsDir, doc.nome_arquivo);
+    if (!fs.existsSync(filePath))
+      return res.status(404).json({ ok: false, error: 'Arquivo não encontrado no servidor.' });
+
+    res.setHeader('Content-Disposition', `attachment; filename="${doc.nome_original}"`);
+    res.setHeader('Content-Type', 'application/pdf');
+    fs.createReadStream(filePath).pipe(res);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ ok: false, error: 'Erro ao baixar documento.' });
+  }
+});
+
+// DELETE /api/documentos/:id — membro deleta o próprio, admin deleta qualquer um
+app.delete('/api/documentos/:id', authMiddleware, async (req, res) => {
+  try {
+    const { rows } = await pool.query('SELECT * FROM documentos WHERE id = $1', [req.params.id]);
+    const doc = rows[0];
+    if (!doc) return res.status(404).json({ ok: false, error: 'Documento não encontrado.' });
+    if (req.user.role !== 'admin' && doc.usuario_id !== req.user.userId)
+      return res.status(403).json({ ok: false, error: 'Acesso negado.' });
+
+    // Remove do banco
+    await pool.query('DELETE FROM documentos WHERE id = $1', [req.params.id]);
+
+    // Remove arquivo físico (sem erro se já não existir)
+    const filePath = path.join(uploadsDir, doc.nome_arquivo);
+    fs.unlink(filePath, () => {});
+
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ ok: false, error: 'Erro ao deletar documento.' });
+  }
+});
+
+// GET /api/documentos/usuario/:userId — admin lista docs de qualquer usuário
+app.get('/api/documentos/usuario/:userId', authMiddleware, async (req, res) => {
+  if (req.user.role !== 'admin')
+    return res.status(403).json({ ok: false, error: 'Acesso negado.' });
+  try {
+    const { rows } = await pool.query(
+      `SELECT d.id, d.nome_arquivo, d.nome_original, d.tipo, d.status, d.tamanho_kb, d.enviado_em,
+              u.nome AS nome_usuario
+       FROM documentos d JOIN usuarios u ON u.id = d.usuario_id
+       WHERE d.usuario_id = $1 ORDER BY d.enviado_em DESC`,
+      [req.params.userId]
+    );
+    res.json({ ok: true, documentos: rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ ok: false, error: 'Erro ao buscar documentos.' });
+  }
+});
+
 const { recuperarSenha, redefinirSenha } = require('./redefinir-senha');
 app.post('/api/recuperar-senha', recuperarSenha);
 app.post('/api/redefinir-senha', redefinirSenha);
