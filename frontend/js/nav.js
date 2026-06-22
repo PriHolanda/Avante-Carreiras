@@ -14,8 +14,6 @@ const NAV = (() => {
     function _appendPerfil(session) {
         const navList = document.querySelector('.nav-list');
         if (!navList) return;
-
-        // Não injeta se já existe link estático para meuperfil.html no HTML
         if (navList.querySelector('[href="meuperfil.html"]')) return;
 
         const a = document.createElement('a');

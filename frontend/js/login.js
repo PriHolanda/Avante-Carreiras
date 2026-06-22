@@ -1,20 +1,11 @@
-/**
- * Avante Carreiras — login.js
- * Lógica exclusiva da tela de login.
- * Requer auth.js carregado antes.
- */
 
-// Inicializa o banco de usuários (só roda uma vez, na primeira visita)
 AUTH.initDB();
 
-// Redireciona para dashboard SE já houver sessão válida
-// Isso é intencional: usuário já logado não precisa ver o login de novo
 const sessaoAtiva = AUTH.getSession();
 if (sessaoAtiva) {
     window.location.href = sessaoAtiva.redirectTo;
 }
 
-// ── Helpers de erro ───────────────────────────────────────────────────────────
 function showError(msg) {
     const box = document.getElementById('errorMsg');
     document.getElementById('errorText').textContent = msg;
@@ -28,8 +19,6 @@ function clearError() {
     document.getElementById('emailInput').classList.remove('input-error');
     document.getElementById('passwordInput').classList.remove('input-error');
 }
-
-// ── Submit ────────────────────────────────────────────────────────────────────
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     clearError();

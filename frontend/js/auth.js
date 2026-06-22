@@ -1,6 +1,4 @@
-/**
- * Avante Carreiras — auth.js (versão API)
- */
+
 const AUTH = (() => {
   const API_BASE    = 'http://localhost:3000/api';
   const SESSION_KEY = 'avante_session';
@@ -83,7 +81,6 @@ const AUTH = (() => {
       const raw = localStorage.getItem(SESSION_KEY);
       if (!raw) return null;
       const session = JSON.parse(raw);
-      // Valida apenas os campos essenciais
       if (!session.token || !session.expiresAt || !session.redirectTo || !session.role) {
         localStorage.removeItem(SESSION_KEY);
         return null;

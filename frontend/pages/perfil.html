@@ -17,14 +17,14 @@
     <aside class="sidebar">
         <nav class="nav-container">
             <img src="../assets/avante-logo.webp" alt="Logo Avante" class="img-logo">
-
             <div class="nav-list">
-                <a class="item-list" href="membros.html">
+                <a class="item-list" href="membros.html" data-role-only="admin">
                     <i class="fa-solid fa-user-group"></i> Membros
                 </a>
-                <a class="item-list" href="documentos.html">
+                <a class="item-list" href="documentos.html" data-role-only="admin">
                     <i class="fa-regular fa-folder"></i> Documentos
                 </a>
+                <!-- Meu Perfil e Sair são injetados pelo nav.js -->
             </div>
         </nav>
     </aside>
@@ -32,14 +32,43 @@
     <main>
         <div class="container">
             <div class="perfil-cabecalho">
-                <img src="../assets/perfil.png" alt="Foto Perfil" class="foto-perfil">
+                <div class="avatar-perfil" id="avatarPerfil"></div>
                 <div class="info-perfil">
-                    <h1>Vitória Rabelo Santiago</h1>
-                    <p><strong>Setor:</strong> Projetos</p>
-                    <p><strong>Data de Nascimento:</strong> 30/05/2005</p>
-                    <p><strong>Data de Admissão:</strong> 13/04/2026</p>
-                    <p><strong>Email:</strong> vitoriarabelo@gmail.com</p>
+                    <h1 id="perfilNome">—</h1>
+                    <p><strong>Setor:</strong> <span id="perfilSetor">—</span></p>
+                    <p><strong>Data de Nascimento:</strong> <span id="perfilNascimento">—</span></p>
+                    <p><strong>Data de Admissão:</strong> <span id="perfilAdmissao">—</span></p>
+                    <p><strong>Email:</strong> <span id="perfilEmail">—</span></p>
+                    <span class="role-badge" id="roleBadge"></span>
                 </div>
+            </div>
+
+            <!-- ── Área de upload — admin envia documento em nome do membro ── -->
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-dropzone" id="uploadDropzone">
+                    <i class="fa-solid fa-file-arrow-up upload-icon"></i>
+                    <p class="upload-label">Arraste um PDF aqui ou <span class="upload-link">clique para selecionar</span></p>
+                    <p class="upload-hint">Apenas arquivos PDF • Máximo 10 MB</p>
+                    <input type="file" id="uploadInput" accept="application/pdf" hidden>
+                </div>
+                <div class="upload-preview" id="uploadPreview">
+                    <i class="fa-solid fa-file-pdf upload-preview-icon"></i>
+                    <span class="upload-preview-nome" id="uploadPreviewNome"></span>
+                    <button class="upload-preview-remover" id="uploadRemover" type="button" title="Remover">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="upload-tipo-group">
+                    <label class="upload-tipo-label" for="uploadTipo">Tipo de documento</label>
+                    <select id="uploadTipo" class="upload-tipo-select">
+                        <option value="voluntariado">Voluntariado</option>
+                        <option value="rescisao">Rescisão</option>
+                    </select>
+                </div>
+                <button class="btn-upload" id="btnUpload" type="button" disabled>
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Enviar documento
+                </button>
+                <p class="upload-feedback" id="uploadFeedback"></p>
             </div>
 
             <table>
@@ -47,32 +76,13 @@
                     <tr>
                         <th>Nome</th>
                         <th>Data de Envio</th>
-                        <th>Status</th>
+                        <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tabelaDocumentos">
                     <tr>
-                        <td>termo-voluntariado.pdf</td>
-                        <td>05/01/2026</td>
-                        <td>
-                            <img src="../assets/check.png" alt="Check ícone">
-                            Assinado
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>documento.pdf</td>
-                        <td>30/01/2026</td>
-                        <td>
-                            <img src="../assets/upload.png" alt="Upload ícone">
-                            Pendente
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>documento-assinado.docx</td>
-                        <td>31/01/2026</td>
-                        <td>
-                            <img src="../assets/alert.png" alt="Alerta ícone">
-                            Formato errado!
+                        <td colspan="3" style="text-align:center; color:#888; padding: 30px 0;">
+                            Carregando documentos...
                         </td>
                     </tr>
                 </tbody>
@@ -86,9 +96,6 @@
 
     <script src="../js/auth.js"></script>
     <script src="../js/nav.js"></script>
-<script>
-    NAV.init('admin');
-</script>
+    <script src="../js/perfil-membro.js"></script>
 </body>
-
 </html>

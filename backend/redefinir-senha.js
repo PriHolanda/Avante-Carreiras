@@ -37,7 +37,7 @@ async function enviarCodigoRecuperacao(destinatario, codigo) {
   });
 }
 
-// ── POST /api/recuperar-senha ────────────────────────────────────────────────
+//  POST /api/recuperar-senha 
 async function recuperarSenha(req, res) {
   const { email } = req.body;
   if (!email)

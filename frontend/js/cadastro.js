@@ -1,8 +1,7 @@
-// ── Redireciona se já estiver logado ─────────────────────────────────────────
+
 const s = AUTH.getSession();
 if (s) window.location.href = s.redirectTo;
 
-// ── Toggle visibilidade das senhas ────────────────────────────────────────────
 function setupToggle(btnId, inputId) {
     document.getElementById(btnId).addEventListener('click', () => {
         const input = document.getElementById(inputId);
@@ -12,7 +11,6 @@ function setupToggle(btnId, inputId) {
 setupToggle('toggleSenha', 'senha');
 setupToggle('toggleConfirmar', 'confirmarSenha');
 
-// ── Barra de força da senha ───────────────────────────────────────────────────
 document.getElementById('senha').addEventListener('input', function () {
     const v = this.value;
     let score = 0;
@@ -56,7 +54,6 @@ function clearAll() {
     ['nome', 'email', 'setor', 'nascimento', 'senha', 'confirmar'].forEach(clearError);
 }
 
-// Limpa erro ao interagir com o campo
 ['nome', 'email', 'senha'].forEach(id =>
     document.getElementById(id).addEventListener('input', () => clearError(id))
 );
@@ -64,7 +61,6 @@ document.getElementById('setor').addEventListener('change', () => clearError('se
 document.getElementById('nascimento').addEventListener('change', () => clearError('nascimento'));
 document.getElementById('confirmarSenha').addEventListener('input', () => clearError('confirmar'));
 
-// ── Validação ─────────────────────────────────────────────────────────────────
 function validate(nome, email, setor, nascimento, senha, confirmar) {
     let ok = true;
     if (!nome.trim() || nome.trim().split(' ').length < 2) {
@@ -97,7 +93,6 @@ function validate(nome, email, setor, nascimento, senha, confirmar) {
     return ok;
 }
 
-// ── Submit ────────────────────────────────────────────────────────────────────
 document.getElementById('cadastroForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     clearAll();

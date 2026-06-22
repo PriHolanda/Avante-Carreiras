@@ -1,22 +1,61 @@
-const session = NAV.init();
+const session = NAV.init('admin');
+
+let viewingUserId = null;
 
 if (session) {
-    document.getElementById('avatarPerfil').textContent =
-        session.nome.trim().charAt(0).toUpperCase();
+    const params = new URLSearchParams(window.location.search);
+    viewingUserId = params.get('id');
 
-    const badge = document.getElementById('roleBadge');
-    badge.textContent = session.role === 'admin' ? 'Administrador' : 'Membro';
-    badge.classList.add(session.role === 'admin' ? 'badge-admin' : 'badge-membro');
+    if (!viewingUserId) {
+        window.location.href = 'membros.html';
+    } else {
+        carregarPerfil(viewingUserId);
+        configurarUpload(viewingUserId);
+    }
+}
 
-    carregarDocumentos();
+async function carregarPerfil(userId) {
+    try {
+        const res  = await fetch(`http://localhost:3000/api/usuarios/${userId}`, {
+            headers: { 'Authorization': `Bearer ${session.token}` }
+        });
+        const data = await res.json();
 
+        if (!data.ok) {
+            alert(data.error || 'Não foi possível carregar este perfil.');
+            window.location.href = 'membros.html';
+            return;
+        }
+
+        const user = data.user;
+
+        document.getElementById('avatarPerfil').textContent = user.nome.trim().charAt(0).toUpperCase();
+        document.getElementById('perfilNome').textContent       = user.nome;
+        document.getElementById('perfilSetor').textContent      = user.setor || '—';
+        document.getElementById('perfilNascimento').textContent = user.nascimento || '—';
+        document.getElementById('perfilAdmissao').textContent   = user.admissao || '—';
+        document.getElementById('perfilEmail').textContent      = user.email;
+
+        const badge = document.getElementById('roleBadge');
+        badge.textContent = user.role === 'admin' ? 'Administrador' : 'Membro';
+        badge.classList.add(user.role === 'admin' ? 'badge-admin' : 'badge-membro');
+
+        carregarDocumentos(userId);
+    } catch {
+        alert('Não foi possível conectar ao servidor.');
+        window.location.href = 'membros.html';
+    }
+}
+
+// ── Upload em nome do membro visualizado ──────────────────────────────────────
+function configurarUpload(userId) {
     const dropzone    = document.getElementById('uploadDropzone');
     const input       = document.getElementById('uploadInput');
     const preview     = document.getElementById('uploadPreview');
     const previewNome = document.getElementById('uploadPreviewNome');
     const remover     = document.getElementById('uploadRemover');
-    const btnUpload   = document.getElementById('btnUpload');
-    const feedback    = document.getElementById('uploadFeedback');
+    const btnUpload    = document.getElementById('btnUpload');
+    const feedback     = document.getElementById('uploadFeedback');
 
     let arquivoSelecionado = null;
 
@@ -40,6 +79,7 @@ if (session) {
         const formData = new FormData();
         formData.append('arquivo', arquivoSelecionado);
         formData.append('tipo', document.getElementById('uploadTipo').value);
+        formData.append('usuarioId', userId);
 
         try {
             const res  = await fetch('http://localhost:3000/api/documentos/upload', {
@@ -57,7 +97,7 @@ if (session) {
             setFeedback('Documento enviado com sucesso!', 'sucesso');
             limparSelecao();
             btnUpload.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Enviar documento';
-            carregarDocumentos();
+            carregarDocumentos(userId);
         } catch {
             setFeedback('Não foi possível conectar ao servidor.', 'erro');
             btnUpload.disabled = false;
@@ -90,12 +130,13 @@ if (session) {
     }
 }
 
-async function carregarDocumentos() {
+// ── Lista documentos do membro visualizado ────────────────────────────────────
+async function carregarDocumentos(userId) {
     const tbody = document.getElementById('tabelaDocumentos');
     tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:#888;padding:24px 0;">Carregando...</td></tr>`;
 
     try {
-        const res  = await fetch('http://localhost:3000/api/documentos', {
+        const res  = await fetch(`http://localhost:3000/api/documentos/usuario/${userId}`, {
             headers: { 'Authorization': `Bearer ${session.token}` }
         });
         const data = await res.json();
@@ -155,9 +196,7 @@ async function deletarDocumento(docId, btn) {
         });
         const data = await res.json();
         if (!data.ok) { alert(data.error || 'Erro ao excluir.'); btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-trash"></i>'; return; }
-        // Remove a linha da tabela sem precisar recarregar tudo
         btn.closest('tr').remove();
-        // Se a tabela ficou vazia, mostra mensagem
         const tbody = document.getElementById('tabelaDocumentos');
         if (tbody.querySelectorAll('tr').length === 0) {
             tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:#888;padding:24px 0;">Nenhum documento encontrado.</td></tr>`;
