@@ -8,7 +8,7 @@ const path    = require('path');
 const fs      = require('fs');
 
 const app = express();
-app.use(cors({ origin: '*' }));
+app.use(cors({ origin: 'https://avante-carreiras.netlify.app' }));
 app.use(express.json());
 
 const JWT_SECRET  = process.env.JWT_SECRET;
