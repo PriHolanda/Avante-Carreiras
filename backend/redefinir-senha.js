@@ -1,38 +1,43 @@
-const bcrypt = require('bcryptjs');
-const pool   = require('./db');
+const nodemailer = require('nodemailer');
+const bcrypt     = require('bcryptjs');
+const pool       = require('./db');
 
 const passwordResetCodes = new Map();
 
-async function enviarCodigoRecuperacao(destinatario, codigo) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) throw new Error('RESEND_API_KEY ausente no .env.');
+function getMailTransporter() {
+  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
+  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS)
+    throw new Error('Configurações SMTP ausentes no .env.');
 
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${apiKey}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      from: 'Avante Carreiras <onboarding@resend.dev>',
-      to: destinatario,
-      subject: 'Código de recuperação - Avante Carreiras',
-      html: `
-        <div style="font-family: Arial, sans-serif; color: #040C34; line-height: 1.5;">
-          <h2>Recuperação de senha</h2>
-          <p>Use o código abaixo para cadastrar uma nova senha no Avante Carreiras:</p>
-          <p style="font-size: 28px; font-weight: 700; letter-spacing: 4px; color: #02A9D6;">${codigo}</p>
-          <p>Este código expira em 10 minutos.</p>
-        </div>
-      `,
-      text: `Seu código de verificação é: ${codigo}. Ele expira em 10 minutos.`
-    })
+  return nodemailer.createTransport({
+    host: SMTP_HOST,
+    port: Number(SMTP_PORT),
+    secure: false,
+    auth: { user: SMTP_USER, pass: SMTP_PASS },
+    connectionTimeout: 10000,
+    greetingTimeout:   10000,
+    socketTimeout:     15000,
   });
+}
 
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || `Resend retornou status ${res.status}`);
-  }
+async function enviarCodigoRecuperacao(destinatario, codigo) {
+  const transporter = getMailTransporter();
+  const from = `"Avante Carreiras" <${process.env.SMTP_USER}>`;
+
+  await transporter.sendMail({
+    from,
+    to: destinatario,
+    subject: 'Código de recuperação - Avante Carreiras',
+    text: `Seu código de verificação é: ${codigo}. Ele expira em 10 minutos.`,
+    html: `
+      <div style="font-family: Arial, sans-serif; color: #040C34; line-height: 1.5;">
+        <h2>Recuperação de senha</h2>
+        <p>Use o código abaixo para cadastrar uma nova senha no Avante Carreiras:</p>
+        <p style="font-size: 28px; font-weight: 700; letter-spacing: 4px; color: #02A9D6;">${codigo}</p>
+        <p>Este código expira em 10 minutos.</p>
+      </div>
+    `
+  });
 }
 
 // ── POST /api/recuperar-senha ────────────────────────────────────────────────
