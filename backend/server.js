@@ -8,7 +8,22 @@ const path    = require('path');
 const fs      = require('fs');
 
 const app = express();
-app.use(cors({ origin: 'https://avante-carreiras.netlify.app' }));
+
+// ── CORS — permite produção + qualquer localhost (dev) ───────────────────────
+const ALLOWED_ORIGINS = [
+  'https://avante-carreiras.netlify.app',
+  'http://localhost',
+  'http://127.0.0.1',
+];
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // Postman / curl / file://
+    const isLocal = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
+    if (isLocal || ALLOWED_ORIGINS.includes(origin)) return callback(null, true);
+    callback(new Error('CORS: origem não permitida — ' + origin));
+  }
+}));
+
 app.use(express.json());
 
 const JWT_SECRET  = process.env.JWT_SECRET;
@@ -125,7 +140,7 @@ app.get('/api/me', authMiddleware, async (req, res) => {
   res.json({ ok: true, user: rows[0] });
 });
 
-// ── GET /api/usuarios — admin lista todos os membros com status calculado ────
+// ── GET /api/usuarios ────────────────────────────────────────────────────────
 app.get('/api/usuarios', authMiddleware, adminOnly, async (req, res) => {
   try {
     const { rows } = await pool.query(`
@@ -145,7 +160,7 @@ app.get('/api/usuarios', authMiddleware, adminOnly, async (req, res) => {
   }
 });
 
-// ── GET /api/usuarios/:id — admin vê qualquer um, membro só vê o próprio ─────
+// ── GET /api/usuarios/:id ────────────────────────────────────────────────────
 app.get('/api/usuarios/:id', authMiddleware, async (req, res) => {
   const targetId = Number(req.params.id);
   if (req.user.role !== 'admin' && req.user.userId !== targetId)
@@ -178,9 +193,8 @@ if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadsDir),
   filename: (req, file, cb) => {
-    const ext        = path.extname(file.originalname).toLowerCase();
-    const unique     = `${Date.now()}-${Math.round(Math.random() * 1e6)}`;
-    // Usa o usuário ALVO do upload (pode ser o admin enviando para outro membro)
+    const ext      = path.extname(file.originalname).toLowerCase();
+    const unique   = `${Date.now()}-${Math.round(Math.random() * 1e6)}`;
     const targetId = req.body.usuarioId || req.user.userId;
     cb(null, `doc-${targetId}-${unique}${ext}`);
   }
@@ -195,9 +209,7 @@ const upload = multer({
   }
 });
 
-// POST /api/documentos/upload
-// Body pode incluir 'usuarioId' — só admin pode enviar para outro usuário.
-// Se 'usuarioId' não vier, o documento é vinculado ao próprio usuário logado.
+// ── POST /api/documentos/upload ──────────────────────────────────────────────
 app.post('/api/documentos/upload', authMiddleware, (req, res) => {
   upload.single('arquivo')(req, res, async (err) => {
     if (err) return res.status(400).json({ ok: false, error: err.message });
@@ -206,7 +218,6 @@ app.post('/api/documentos/upload', authMiddleware, (req, res) => {
     const { tipo = 'voluntariado', usuarioId } = req.body;
     const targetId = usuarioId ? Number(usuarioId) : req.user.userId;
 
-    // Só admin pode enviar documento em nome de outro usuário
     if (targetId !== req.user.userId && req.user.role !== 'admin') {
       fs.unlink(req.file.path, () => {});
       return res.status(403).json({ ok: false, error: 'Acesso negado.' });
@@ -230,22 +241,9 @@ app.post('/api/documentos/upload', authMiddleware, (req, res) => {
   });
 });
 
-// GET /api/documentos — lista documentos do usuário logado
-app.get('/api/documentos', authMiddleware, async (req, res) => {
-  try {
-    const { rows } = await pool.query(
-      `SELECT id, nome_arquivo, nome_original, tipo, status, tamanho_kb, enviado_em
-       FROM documentos WHERE usuario_id = $1 ORDER BY enviado_em DESC`,
-      [req.user.userId]
-    );
-    res.json({ ok: true, documentos: rows });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ ok: false, error: 'Erro ao buscar documentos.' });
-  }
-});
+// ── ATENÇÃO: rotas estáticas ANTES das rotas com parâmetro (:id) ─────────────
 
-// ── GET /api/documentos/todos — admin lista TODOS os documentos do sistema ───
+// GET /api/documentos/todos — admin lista TODOS
 app.get('/api/documentos/todos', authMiddleware, adminOnly, async (req, res) => {
   try {
     const { rows } = await pool.query(`
@@ -255,6 +253,42 @@ app.get('/api/documentos/todos', authMiddleware, adminOnly, async (req, res) => 
       JOIN usuarios u ON u.id = d.usuario_id
       ORDER BY d.enviado_em DESC
     `);
+    res.json({ ok: true, documentos: rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ ok: false, error: 'Erro ao buscar documentos.' });
+  }
+});
+
+// GET /api/documentos/usuario/:userId — admin lista docs de um membro
+app.get('/api/documentos/usuario/:userId', authMiddleware, async (req, res) => {
+  const targetId = Number(req.params.userId);
+  if (req.user.role !== 'admin' && req.user.userId !== targetId)
+    return res.status(403).json({ ok: false, error: 'Acesso negado.' });
+
+  try {
+    const { rows } = await pool.query(
+      `SELECT d.id, d.nome_arquivo, d.nome_original, d.tipo, d.status, d.tamanho_kb, d.enviado_em,
+              u.nome AS nome_usuario
+       FROM documentos d JOIN usuarios u ON u.id = d.usuario_id
+       WHERE d.usuario_id = $1 ORDER BY d.enviado_em DESC`,
+      [targetId]
+    );
+    res.json({ ok: true, documentos: rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ ok: false, error: 'Erro ao buscar documentos.' });
+  }
+});
+
+// GET /api/documentos — lista documentos do usuário logado
+app.get('/api/documentos', authMiddleware, async (req, res) => {
+  try {
+    const { rows } = await pool.query(
+      `SELECT id, nome_arquivo, nome_original, tipo, status, tamanho_kb, enviado_em
+       FROM documentos WHERE usuario_id = $1 ORDER BY enviado_em DESC`,
+      [req.user.userId]
+    );
     res.json({ ok: true, documentos: rows });
   } catch (err) {
     console.error(err);
@@ -284,7 +318,7 @@ app.get('/api/documentos/:id/download', authMiddleware, async (req, res) => {
   }
 });
 
-// DELETE /api/documentos/:id — membro deleta o próprio, admin deleta qualquer um
+// DELETE /api/documentos/:id
 app.delete('/api/documentos/:id', authMiddleware, async (req, res) => {
   try {
     const { rows } = await pool.query('SELECT * FROM documentos WHERE id = $1', [req.params.id]);
@@ -294,9 +328,7 @@ app.delete('/api/documentos/:id', authMiddleware, async (req, res) => {
       return res.status(403).json({ ok: false, error: 'Acesso negado.' });
 
     await pool.query('DELETE FROM documentos WHERE id = $1', [req.params.id]);
-
-    const filePath = path.join(uploadsDir, doc.nome_arquivo);
-    fs.unlink(filePath, () => {});
+    fs.unlink(path.join(uploadsDir, doc.nome_arquivo), () => {});
 
     res.json({ ok: true });
   } catch (err) {
@@ -305,27 +337,7 @@ app.delete('/api/documentos/:id', authMiddleware, async (req, res) => {
   }
 });
 
-// GET /api/documentos/usuario/:userId — admin lista docs de um usuário específico
-app.get('/api/documentos/usuario/:userId', authMiddleware, async (req, res) => {
-  const targetId = Number(req.params.userId);
-  if (req.user.role !== 'admin' && req.user.userId !== targetId)
-    return res.status(403).json({ ok: false, error: 'Acesso negado.' });
-
-  try {
-    const { rows } = await pool.query(
-      `SELECT d.id, d.nome_arquivo, d.nome_original, d.tipo, d.status, d.tamanho_kb, d.enviado_em,
-              u.nome AS nome_usuario
-       FROM documentos d JOIN usuarios u ON u.id = d.usuario_id
-       WHERE d.usuario_id = $1 ORDER BY d.enviado_em DESC`,
-      [targetId]
-    );
-    res.json({ ok: true, documentos: rows });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ ok: false, error: 'Erro ao buscar documentos.' });
-  }
-});
-
+// ── Recuperação de senha ─────────────────────────────────────────────────────
 const { recuperarSenha, redefinirSenha } = require('./redefinir-senha');
 app.post('/api/recuperar-senha', recuperarSenha);
 app.post('/api/redefinir-senha', redefinirSenha);
