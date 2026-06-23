@@ -1,43 +1,38 @@
-const nodemailer = require('nodemailer');
-const bcrypt     = require('bcryptjs');
-const pool       = require('./db');
+const bcrypt = require('bcryptjs');
+const pool   = require('./db');
 
 const passwordResetCodes = new Map();
 
-function getMailTransporter() {
-  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
-  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS)
-    throw new Error('Configurações SMTP ausentes no .env.');
-
-  return nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: Number(SMTP_PORT),
-    secure: Number(SMTP_PORT) === 465,
-    auth: { user: SMTP_USER, pass: SMTP_PASS },
-    connectionTimeout: 8000,  // 8s para conectar
-    greetingTimeout:   8000,  // 8s para o handshake
-    socketTimeout:     10000, // 10s de inatividade
-  });
-}
-
 async function enviarCodigoRecuperacao(destinatario, codigo) {
-  const transporter = getMailTransporter();
-  const from = process.env.SMTP_FROM || process.env.SMTP_USER;
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) throw new Error('RESEND_API_KEY ausente no .env.');
 
-  await transporter.sendMail({
-    from,
-    to: destinatario,
-    subject: 'Código de recuperação - Avante Carreiras',
-    text: `Seu código de verificação é: ${codigo}. Ele expira em 10 minutos.`,
-    html: `
-      <div style="font-family: Arial, sans-serif; color: #040C34; line-height: 1.5;">
-        <h2>Recuperação de senha</h2>
-        <p>Use o código abaixo para cadastrar uma nova senha no Avante Carreiras:</p>
-        <p style="font-size: 28px; font-weight: 700; letter-spacing: 4px; color: #02A9D6;">${codigo}</p>
-        <p>Este código expira em 10 minutos.</p>
-      </div>
-    `
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      from: 'Avante Carreiras <onboarding@resend.dev>',
+      to: destinatario,
+      subject: 'Código de recuperação - Avante Carreiras',
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #040C34; line-height: 1.5;">
+          <h2>Recuperação de senha</h2>
+          <p>Use o código abaixo para cadastrar uma nova senha no Avante Carreiras:</p>
+          <p style="font-size: 28px; font-weight: 700; letter-spacing: 4px; color: #02A9D6;">${codigo}</p>
+          <p>Este código expira em 10 minutos.</p>
+        </div>
+      `,
+      text: `Seu código de verificação é: ${codigo}. Ele expira em 10 minutos.`
+    })
   });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || `Resend retornou status ${res.status}`);
+  }
 }
 
 // ── POST /api/recuperar-senha ────────────────────────────────────────────────
@@ -58,7 +53,6 @@ async function recuperarSenha(req, res) {
 
     const codigo = String(Math.floor(100000 + Math.random() * 900000));
 
-    // Salva o código ANTES de tentar enviar
     passwordResetCodes.set(normalizedEmail, {
       codigo,
       expiresAt: Date.now() + 10 * 60 * 1000
@@ -67,10 +61,9 @@ async function recuperarSenha(req, res) {
     try {
       await enviarCodigoRecuperacao(normalizedEmail, codigo);
     } catch (mailErr) {
-      // Remove o código se o envio falhou
       passwordResetCodes.delete(normalizedEmail);
       console.error('Erro ao enviar e-mail:', mailErr.message);
-      return res.status(500).json({ ok: false, error: 'Não foi possível enviar o código por e-mail. Verifique as configurações SMTP.' });
+      return res.status(500).json({ ok: false, error: 'Não foi possível enviar o código por e-mail.' });
     }
 
     res.json({ ok: true });
