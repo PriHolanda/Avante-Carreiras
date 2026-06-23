@@ -13,7 +13,10 @@ function getMailTransporter() {
     host: SMTP_HOST,
     port: Number(SMTP_PORT),
     secure: Number(SMTP_PORT) === 465,
-    auth: { user: SMTP_USER, pass: SMTP_PASS }
+    auth: { user: SMTP_USER, pass: SMTP_PASS },
+    connectionTimeout: 8000,  // 8s para conectar
+    greetingTimeout:   8000,  // 8s para o handshake
+    socketTimeout:     10000, // 10s de inatividade
   });
 }
 
@@ -37,7 +40,7 @@ async function enviarCodigoRecuperacao(destinatario, codigo) {
   });
 }
 
-//  POST /api/recuperar-senha 
+// ── POST /api/recuperar-senha ────────────────────────────────────────────────
 async function recuperarSenha(req, res) {
   const { email } = req.body;
   if (!email)
@@ -54,17 +57,26 @@ async function recuperarSenha(req, res) {
       return res.status(404).json({ ok: false, error: 'E-mail não encontrado.' });
 
     const codigo = String(Math.floor(100000 + Math.random() * 900000));
-    await enviarCodigoRecuperacao(normalizedEmail, codigo);
 
+    // Salva o código ANTES de tentar enviar
     passwordResetCodes.set(normalizedEmail, {
       codigo,
       expiresAt: Date.now() + 10 * 60 * 1000
     });
 
+    try {
+      await enviarCodigoRecuperacao(normalizedEmail, codigo);
+    } catch (mailErr) {
+      // Remove o código se o envio falhou
+      passwordResetCodes.delete(normalizedEmail);
+      console.error('Erro ao enviar e-mail:', mailErr.message);
+      return res.status(500).json({ ok: false, error: 'Não foi possível enviar o código por e-mail. Verifique as configurações SMTP.' });
+    }
+
     res.json({ ok: true });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ ok: false, error: 'Não foi possível enviar o código por e-mail.' });
+    console.error('Erro em recuperarSenha:', err.message);
+    res.status(500).json({ ok: false, error: 'Erro interno do servidor.' });
   }
 }
 
@@ -101,7 +113,7 @@ async function redefinirSenha(req, res) {
     passwordResetCodes.delete(normalizedEmail);
     res.json({ ok: true });
   } catch (err) {
-    console.error(err);
+    console.error('Erro em redefinirSenha:', err.message);
     res.status(500).json({ ok: false, error: 'Erro interno do servidor.' });
   }
 }
